@@ -5,12 +5,18 @@
 </template>
 
 <script>
-import chatView from './components/chatView.vue'
+import chatView from './components/chatView'
+import firebaseFunc from './functions/firebase'
+
 
 export default {
   name: 'app',
   components: {
     chatView
+  },
+  created() {
+    firebaseFunc.init();
+    firebaseFunc.onAuth();
   }
 }
 </script>
