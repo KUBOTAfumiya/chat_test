@@ -18,12 +18,11 @@ export default {
       return state[CHAT_ID]
     },
     messages (state) {
-      return state[MESSAGES]
+      return state[MESSAGES].slice().reverse()
     }
   },
   mutations: {
     [USER_ID] (state, data) {
-      console.log(data)
       state[USER_ID] = data
     },
     [CHAT_ID] (state, data) {
@@ -34,12 +33,8 @@ export default {
     }
   },
   actions: {
-    async fetchChatId ({ commit, dispatch, state }, payload) {
-      const snapshots = await firebaseFunc.getMyChatId()
-      commit(CHAT_ID, snapshots.docs[0].id)
-    },
     addMessages ({ commit, dispatch, state }, payload) {
-      commit('MESSAGES', [...state[MESSAGES].slice(0, payload.index), payload.data, ...state[MESSAGES].slice(payload.index)].reverse())
+      commit('MESSAGES', [...state[MESSAGES].slice(0, payload.index), payload.data, ...state[MESSAGES].slice(payload.index)])
     }
   }
 }

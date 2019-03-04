@@ -8,28 +8,17 @@
 
 <script>
 
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
-  components: {
-  },
-  data () {
-    return {
-    }
-  },
   computed: {
     ...mapGetters({
       userId: 'firebase/userId',
       chatId: 'firebase/chatId'
     })
-  },
-  methods: {
-  },
-  created () {
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
   .main {

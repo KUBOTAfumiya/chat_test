@@ -10,8 +10,7 @@
 import headerView from '@/components/headerView'
 import messageView from '@/components/messageView'
 import inputView from '@/components/inputView'
-import firebaseFunc from '@/functions/firebase'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -19,20 +18,11 @@ export default {
     messageView,
     inputView
   },
-  data () {
-    return {
-    }
-  },
   computed: {
     ...mapGetters({
       userId: 'firebase/userId',
       chatId: 'firebase/chatId'
     })
-  },
-
-  methods: {
-  },
-  created () {
   }
 }
 </script>

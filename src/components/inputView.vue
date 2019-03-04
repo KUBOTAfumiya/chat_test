@@ -1,6 +1,6 @@
 <template lang="pug">
 div.wrap
-  div.aaa
+  div.inputWrap
     input(type="text" v-model="inputVal")
   div
     button.button(@click="send") SEND
@@ -14,7 +14,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
-      inputVal: '',
+      inputVal: ''
     }
   },
   computed: {
@@ -26,8 +26,8 @@ export default {
     ...mapActions([
     ]),
     send () {
-      firebaseFunc.sendMessage(this.inputVal);
-      this.inputVal = '';
+      firebaseFunc.sendMessage(this.inputVal)
+      this.inputVal = ''
     }
   },
   created () {
@@ -41,14 +41,19 @@ export default {
   padding: 10px;
   background: #34495E;
 }
-.aaa {
-
+.inputWrap {
+  width: 100%;
+  margin-right: 5px;
+}
+.inputWrap > input {
+  width: 100%;
 }
 .button {
   appearance: none;
   background: #42B983;
   color: #fff;
   border: none;
+  height: 100%;
+  width: 80px;
 }
 </style>
-

@@ -5,25 +5,20 @@
 </template>
 
 <script>
-
-import firebaseFunc from '../functions/firebase'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
     return {
-      aaa: 'aaa',
+      aaa: 'aaa'
     }
   },
   computed: {
     ...mapGetters({
       messages: 'firebase/messages'
-    }),
+    })
   },
   methods: {
-    ...mapActions([
-      'firebase/fetchChatId'
-    ])
   },
   created () {
   }
