@@ -1,5 +1,3 @@
-import firebaseFunc from '../../functions/firebase'
-
 const USER_ID = 'USER_ID'
 const CHAT_ID = 'CHAT_ID'
 const MESSAGES = 'MESSAGES'

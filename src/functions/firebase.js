@@ -1,19 +1,14 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth';
+import 'firebase/firestore';
 import store from '@/store'
 
-const config = {
-  apiKey: 'AIzaSyCCMlH3494MTEHcw8Tb1h-sgmefjKAZ3bk',
-  authDomain: 'chat-test-aad0c.firebaseapp.com',
-  databaseURL: 'https://chat-test-aad0c.firebaseio.com',
-  projectId: 'chat-test-aad0c',
-  storageBucket: 'chat-test-aad0c.appspot.com',
-  messagingSenderId: '585652142733'
-}
-
-export default {
+const module = {
   db: {},
-  init () {
+  configureFirebase (config) {
     firebase.initializeApp(config)
+  },
+  init () {
     this.db = firebase.firestore()
     this.onAuth()
     this.anonymousLogin()
@@ -32,22 +27,29 @@ export default {
     firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
         store.commit('firebase/USER_ID', user.uid)
-        await this.fetchMyChatId();
+        await this.findChatID();
         this.onChangeMessage()
       }
     })
   },
-  async fetchMyChatId () {
-    const snapshot = await this.db.collection('chats').where('uid', '==', store.getters['firebase/userId']).limit(1).get();
-    let id;
-    if (snapshot.empty) {
-      const dRef = await this.addChatId();
-      id = dRef.id;
-    } else {
-      id = snapshot.docs[0].id;
+  async findChatID () {
+    const userId = store.getters['firebase/userId']
+    let chatID = await this.findChatIdByUID(userId)
+    if (typeof chatID === 'undefined') {
+      chatID = await this.saveChatID(userId)
     }
-    store.commit('firebase/CHAT_ID', id)
-    return snapshot;
+    store.commit('firebase/CHAT_ID', chatID)
+  },
+  async findChatIdByUID (userId) {
+    const chatID = await this.db.collection('chats').where('uid', '==', userId).limit(1).get()
+    if (chatID.empty) {
+      return undefined
+    }
+    return chatID.docs[0].id
+  },
+  async saveChatID (uid) {
+    const result = await this.db.collection('chats').add({ uid })
+    return result.id
   },
   async addChatId () {
     const d = await this.db.collection('chats').add({
@@ -80,3 +82,6 @@ export default {
       })
   }
 }
+
+export default module;
+export const configureFirebase = module.configureFirebase;
